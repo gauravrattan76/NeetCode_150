@@ -1,0 +1,185 @@
+Below is a clear, step-by-step explanation of different solutions to check if a number exists twice in an array (duplicate check), along with their time complexity (Big-O) and space complexity.
+
+✅ Problem
+
+Given:
+
+int[] nums = {1,2,3,4,5,2};
+
+
+Check if the array contains any duplicate number.
+
+🟦 Solution 1: Brute Force (Nested Loops)
+Code:
+for (int i = 0; i < nums.length; i++) {
+    for (int j = i + 1; j < nums.length; j++) {
+        if (nums[i] == nums[j]) {
+            return true; // duplicate exists
+        }
+    }
+}
+return false; // no duplicate
+
+✔️ How it works?
+
+Compare every element with every other element.
+
+Stop when you find a match.
+
+📊 Time Complexity: O(n²)
+
+Because:
+
+For each of the n elements, you compare with n−1 others.
+
+Worst case: (n-1) + (n-2) + ... + 1 = n(n-1)/2 ≈ n²
+
+🧠 Space Complexity: O(1)
+
+Uses no extra data structure.
+
+Only the array itself → constant space.
+
+When to use?
+
+When array is very small.
+
+When avoiding extra memory.
+
+🟩 Solution 2: Using HashSet (Best Practical Solution)
+Code:
+HashSet<Integer> set = new HashSet<>();
+
+for (int num : nums) {
+    if (!set.add(num)) {
+        return true; // found duplicate
+    }
+}
+return false;
+
+✔️ How it works?
+
+HashSet.add() returns false if the element already exists.
+Perfect for duplicate detection.
+
+📊 Time Complexity: O(n)
+
+You visit each element once.
+
+HashSet insert/search is O(1) average case.
+
+So total = n × O(1) = O(n)
+
+🧠 Space Complexity: O(n)
+
+In the worst case (all elements unique), you store all n items in the set.
+
+When to use?
+
+For fastest performance.
+
+When extra memory is acceptable.
+
+🟨 Solution 3: Sorting the Array First
+Code:
+Arrays.sort(nums); // O(n log n)
+
+for (int i = 0; i < nums.length - 1; i++) {
+    if (nums[i] == nums[i + 1]) {
+        return true;
+    }
+}
+return false;
+
+✔️ How it works?
+
+If duplicates exist, they will sit next to each other after sorting.
+
+Just check consecutive elements.
+
+📊 Time Complexity: O(n log n)
+
+Why?
+
+Sorting takes O(n log n)
+
+Single pass after sorting → O(n)
+
+Final: O(n log n) dominates
+
+🧠 Space Complexity:
+
+O(1) if you use in-place sort like quicksort.
+
+O(n) if sort makes a copy (depends on implementation).
+
+When to use?
+
+When you are allowed to modify the array.
+
+When sorting is needed for other operations too.
+
+🟧 Solution 4: Using a Frequency Array
+
+(Works only if values are small & positive)
+
+Code:
+int max = 1000; // assume elements range 0–1000
+int[] freq = new int[max + 1];
+
+for (int num : nums) {
+    if (freq[num] == 1) return true;
+    freq[num]++;
+}
+return false;
+
+📊 Time Complexity: O(n)
+
+One pass through array
+
+🧠 Space Complexity: O(K)
+
+K = range of values
+
+Good if values are small (e.g., <10000), bad otherwise.
+
+When to use?
+
+When numbers are within a known small range.
+
+When you want extremely fast detection.
+
+🟫 Solution 5: Using Streams (Java 8)
+
+(Not the fastest, but elegant)
+
+Code:
+boolean hasDuplicate =
+    Arrays.stream(nums).distinct().count() != nums.length;
+
+📊 Time Complexity: O(n) to O(n log n)
+
+Depends on implementation of .distinct() internally:
+
+Uses hash-based structure generally → O(n)
+
+🧠 Space Complexity: O(n)
+🟪 Summary Table
+Solution	Approach	Time Complexity	Space Complexity	Notes
+1. Brute Force	Compare all pairs	O(n²)	O(1)	Slowest
+2. HashSet	Check if seen before	O(n)	O(n)	Fastest practical
+3. Sorting	Sort + check neighbors	O(n log n)	O(1)/O(n)	Good if modifying array OK
+4. Frequency array	Count occurrences	O(n)	O(K)	Only if numbers are small
+5. Streams	Functional style	O(n)	O(n)	Clean but slower than HashSet
+🟦 Best Recommendation
+✔ Use HashSet — fastest & cleanest:
+O(n) time, O(n) space
+
+
+If you want, I can also explain:
+
+How Java stores HashSet internally
+
+Why HashSet add is O(1)
+
+Collision handling inside HashSet
