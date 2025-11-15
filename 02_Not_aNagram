@@ -1,3 +1,5 @@
+time and space is O(n)
+
 public class Main {
     public static void main(String[] args) {
         String st = "god";
@@ -29,3 +31,46 @@ public class Main {
 
 Time is - On
 space is on
+
+
+________
+
+
+nested loop -
+
+Time is O(n^2)
+space is O(n)
+
+public class Main {
+    public static void main(String[] args) {
+    String s = "red";
+    String t = "der1";
+            if (s.length() != t.length()){
+                System.out.println("not anagram,");
+                    return;}
+
+
+            boolean[] used = new boolean[t.length()];
+
+            for (int i = 0; i < s.length(); i++) {
+                char c = s.charAt(i);
+                boolean found = false;
+
+                for (int j = 0; j < t.length(); j++) {
+
+                    // if chars match and this char in t is not used yet
+                    if (c == t.charAt(j) && !used[j]) {
+                        used[j] = true;   // mark as matched
+                        found = true;
+                        break;            // stop inner loop
+                    }
+                }
+
+                // if no match was found for s[i], not an anagram
+                if (!found) {System.out.println("not anagram,");
+                return;}
+            }
+
+        System.out.println("anagram,");
+        }
+    }
